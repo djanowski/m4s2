@@ -1,7 +1,10 @@
-all: $(patsubst notes/%.html, public/%.html, $(wildcard notes/*.html))
+all: $(patsubst notes/%.html, public/%, $(wildcard notes/*.html)) $(patsubst notes/%.html, public/%/index.html, $(wildcard notes/*.html))
 
-public/%.html: notes/%.html tmpl/layout.html
+public/%/index.html: notes/%.html tmpl/layout.html
 	./bin/build $< tmpl/layout.html > $@
+
+public/%:
+	mkdir -p $@
 
 clean:
 	rm public/*.html
